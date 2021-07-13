@@ -26,7 +26,7 @@ class Main {
                 return
             }
 
-            val wheelBaseSize = TermUi.prompt(
+            val wheelBaseSize: WheelBase.Size = TermUi.prompt(
                 "Enter wheelbase size: (S)mall, (M)edium or (L)arge"
             ) {
                 when(it) {
@@ -35,18 +35,19 @@ class Main {
                     "L", "l" -> WheelBase.Size.LARGE
                     else -> throw UsageError("Size has to be S, M or L")
                 }
-            }
+            }!!
 
-            val chasisType = TermUi.prompt(
-                "Enter chasis type: "
+            val chasisType: Chasis.Type = TermUi.prompt(
+                "Enter chasis type: (H)atchback, (S)edan, SU(V) or (P)ickup"
             ) {
                 when(it) {
-                    "S", "s" -> WheelBase.Size.SMALL
-                    "M", "m" -> WheelBase.Size.MEDIUM
-                    "L", "l" -> WheelBase.Size.LARGE
-                    else -> throw UsageError("Size has to be S, M or L")
+                    "H", "h" -> Chasis.Type.HATCHBACK
+                    "S", "s" -> Chasis.Type.SEDAN
+                    "V", "v" -> Chasis.Type.SUV
+                    "P", "p" -> Chasis.Type.PICKUP
+                    else -> throw UsageError("Size has to be H, S, V or P")
                 }
-            }
+            }!!
 
             val myCar = Vehicle(
                 Engine(
