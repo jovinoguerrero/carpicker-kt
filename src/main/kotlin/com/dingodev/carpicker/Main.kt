@@ -1,6 +1,10 @@
 package com.dingodev.carpicker
 
 import com.dingodev.carpicker.vehicle.Vehicle
+import com.dingodev.carpicker.vehicle.parts.Chasis
+import com.dingodev.carpicker.vehicle.parts.Engine
+import com.dingodev.carpicker.vehicle.parts.Transmission
+import com.dingodev.carpicker.vehicle.parts.WheelBase
 
 class Main {
     companion object {
@@ -9,8 +13,30 @@ class Main {
         fun main(args: Array<String>) {
             println("Hello World")
 
-            val v = Vehicle()
-            println("My car's price is = ${v.price}")
+            val hondaCity = Vehicle(
+                Engine(
+                    Engine.Type.DIESEL,
+                    Transmission(Transmission.Type.AWD)
+                ),
+                WheelBase(
+                    WheelBase.Size.MEDIUM,
+                    Chasis(Chasis.Type.SEDAN)
+                ),
+            )
+
+            val ecosport = Vehicle(
+                Engine(
+                    Engine.Type.PETROL,
+                    Transmission(Transmission.Type.FWD)
+                ),
+                WheelBase(
+                    WheelBase.Size.SMALL,
+                    Chasis(Chasis.Type.SUV)
+                ),
+            )
+
+            println("HondaCity = $${hondaCity.price}")
+            println("Ecosport = $${ecosport.price}")
         }
     }
 }
