@@ -5,6 +5,8 @@ import com.dingodev.carpicker.vehicle.parts.Chasis
 import com.dingodev.carpicker.vehicle.parts.Engine
 import com.dingodev.carpicker.vehicle.parts.Transmission
 import com.dingodev.carpicker.vehicle.parts.WheelBase
+import com.dingodev.carpicker.vehicle.parts.seat.Seat
+import com.dingodev.carpicker.vehicle.parts.wheel.Wheel
 
 class Main {
     companion object {
@@ -20,7 +22,11 @@ class Main {
                 ),
                 WheelBase(
                     WheelBase.Size.MEDIUM,
-                    Chasis(Chasis.Type.SEDAN)
+                    Chasis(
+                        Chasis.Type.SEDAN,
+                        Seat.Factory(Seat.Upholstery.LEATHER)
+                    ),
+                    Wheel.Factory(Wheel.Type.STEEL)
                 ),
             )
 
@@ -31,7 +37,11 @@ class Main {
                 ),
                 WheelBase(
                     WheelBase.Size.SMALL,
-                    Chasis(Chasis.Type.SUV)
+                    Chasis(
+                        Chasis.Type.SUV,
+                        Seat.Factory(Seat.Upholstery.REXINE)
+                    ),
+                    Wheel.Factory(Wheel.Type.ALLOY)
                 ),
             )
 

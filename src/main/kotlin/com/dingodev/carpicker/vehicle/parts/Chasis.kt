@@ -1,9 +1,19 @@
 package com.dingodev.carpicker.vehicle.parts
 
-class Chasis (val type: Type): Part {
+import com.dingodev.carpicker.vehicle.parts.seat.Seat
+
+class Chasis (
+    val type: Type,
+    val seatFactory: Seat.Factory
+): Part {
+
     val seats: List<Seat> = listOf(
-        Seat(), Seat(), Seat(), Seat()
+        seatFactory.createSeat(),
+        seatFactory.createSeat(),
+        seatFactory.createSeat(),
+        seatFactory.createSeat(),
     )
+
     override val selfPrice: Int
         get() = when(this.type) {
             Type.HATCHBACK -> 150000
@@ -11,6 +21,7 @@ class Chasis (val type: Type): Part {
             Type.SUV -> 250000
             Type.PICKUP -> 350000
         }
+
     override val totalCost: Int
         get() = selfPrice + seats.sumBy { it.totalCost }
 
