@@ -1,6 +1,4 @@
-package com.dingodev.carpicker.vehicle.parts.seat
-
-import com.dingodev.carpicker.vehicle.parts.Part
+package com.dingodev.carpicker.vehicle.parts
 
 class Seat private constructor(
     val upholstery: Upholstery

@@ -5,8 +5,8 @@ import com.dingodev.carpicker.vehicle.parts.Chasis
 import com.dingodev.carpicker.vehicle.parts.Engine
 import com.dingodev.carpicker.vehicle.parts.Transmission
 import com.dingodev.carpicker.vehicle.parts.WheelBase
-import com.dingodev.carpicker.vehicle.parts.seat.Seat
-import com.dingodev.carpicker.vehicle.parts.wheel.Wheel
+import com.dingodev.carpicker.vehicle.parts.Seat
+import com.dingodev.carpicker.vehicle.parts.Wheel
 
 class Main {
     companion object {
@@ -41,12 +41,14 @@ class Main {
                         Chasis.Type.SUV,
                         Seat.Factory(Seat.Upholstery.REXINE)
                     ),
-                    Wheel.Factory(Wheel.Type.ALLOY)
+                    Wheel.Factory(Wheel.Type.ALLOY),
+                    spareWheel = true,
                 ),
             )
 
             println("HondaCity = $${hondaCity.price}")
             println("Ecosport = $${ecosport.price}")
+            println("Ecosport wheels = ${ecosport.wheelBase.numWheels}")
         }
     }
 }

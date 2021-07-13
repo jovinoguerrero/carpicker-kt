@@ -1,18 +1,18 @@
 package com.dingodev.carpicker.vehicle.parts
 
-import com.dingodev.carpicker.vehicle.parts.seat.Seat
-
 class Chasis (
     val type: Type,
     val seatFactory: Seat.Factory
 ): Part {
 
-    val seats: List<Seat> = listOf(
-        seatFactory.createSeat(),
-        seatFactory.createSeat(),
-        seatFactory.createSeat(),
-        seatFactory.createSeat(),
-    )
+    val numSeats: Int = when(this.type) {
+        Type.HATCHBACK -> 4
+        Type.SEDAN -> 5
+        Type.SUV -> 8
+        Type.PICKUP -> 6
+    }
+
+    val seats: List<Seat> = generateSequence { seatFactory.createSeat() }.take(numSeats).toList()
 
     override val selfPrice: Int
         get() = when(this.type) {

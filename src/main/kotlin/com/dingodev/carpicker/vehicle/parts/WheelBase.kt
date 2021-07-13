@@ -1,19 +1,16 @@
 package com.dingodev.carpicker.vehicle.parts
 
-import com.dingodev.carpicker.vehicle.parts.wheel.Wheel
-
 class WheelBase (
     val size: Size,
     val chasis: Chasis,
-    val wheelFactory: Wheel.Factory
+    val wheelFactory: Wheel.Factory,
+    val spareWheel: Boolean = false
 ): Part {
 
-    val wheels: List<Wheel> = listOf(
-        wheelFactory.createWheel(),
-        wheelFactory.createWheel(),
-        wheelFactory.createWheel(),
-        wheelFactory.createWheel(),
-    )
+    val numWheels = 4 + if(spareWheel) 1 else 0
+
+    val wheels: List<Wheel> = generateSequence { wheelFactory.createWheel() }.take(numWheels).toList()
+
     override val selfPrice: Int
         get() = when(this.size) {
             Size.SMALL -> 100000

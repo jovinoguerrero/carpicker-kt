@@ -1,6 +1,4 @@
-package com.dingodev.carpicker.vehicle.parts.wheel
-
-import com.dingodev.carpicker.vehicle.parts.Part
+package com.dingodev.carpicker.vehicle.parts
 
 class Wheel private constructor (
     val type: Type,
@@ -17,7 +15,7 @@ class Wheel private constructor (
     enum class Type { STEEL, ALLOY, CARBONFIBRE }
 
     class Factory(
-        val type: Wheel.Type
+        val type: Type
     ) {
         fun createWheel(): Wheel {
             return Wheel(type)
