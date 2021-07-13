@@ -37,17 +37,21 @@ class Main {
                 }
             }!!
 
-            val chasisType: Chasis.Type = TermUi.prompt(
+            val chasisBuilder = Chasis.Builder()
+
+            TermUi.prompt(
                 "Enter chasis type: (H)atchback, (S)edan, SU(V) or (P)ickup"
             ) {
                 when(it) {
-                    "H", "h" -> Chasis.Type.HATCHBACK
-                    "S", "s" -> Chasis.Type.SEDAN
-                    "V", "v" -> Chasis.Type.SUV
-                    "P", "p" -> Chasis.Type.PICKUP
+                    "H", "h" -> chasisBuilder.setChasisType(Chasis.Type.HATCHBACK)
+                    "S", "s" -> chasisBuilder.setChasisType(Chasis.Type.SEDAN)
+                    "V", "v" -> chasisBuilder.setChasisType(Chasis.Type.SUV)
+                    "P", "p" -> chasisBuilder.setChasisType(Chasis.Type.PICKUP)
                     else -> throw UsageError("Size has to be H, S, V or P")
                 }
             }!!
+
+            chasisBuilder.setSeatFactory(Seat.Factory(Seat.Upholstery.REXINE))
 
             val myCar = Vehicle(
                 Engine(
@@ -55,11 +59,8 @@ class Main {
                     Transmission(Transmission.Type.FWD)
                 ),
                 WheelBase(
-                    wheelBaseSize!!,
-                    Chasis(
-                        Chasis.Type.SUV,
-                        Seat.Factory(Seat.Upholstery.REXINE)
-                    ),
+                    wheelBaseSize,
+                    chasisBuilder.build(),
                     Wheel.Factory(Wheel.Type.ALLOY),
                     spareWheel = true,
                 ),
