@@ -1,12 +1,7 @@
 package com.dingodev.carpicker
 
 import com.dingodev.carpicker.vehicle.Vehicle
-import com.dingodev.carpicker.vehicle.parts.Chasis
-import com.dingodev.carpicker.vehicle.parts.Engine
-import com.dingodev.carpicker.vehicle.parts.Transmission
-import com.dingodev.carpicker.vehicle.parts.WheelBase
-import com.dingodev.carpicker.vehicle.parts.Seat
-import com.dingodev.carpicker.vehicle.parts.Wheel
+import com.dingodev.carpicker.vehicle.parts.*
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.TermUi
 
@@ -26,19 +21,25 @@ class Main {
                 return
             }
 
-            val wheelBaseSize: WheelBase.Size = TermUi.prompt(
+            val wheelBaseBuilder = WheelBase.Builder()
+            val chasisBuilder = Chasis.Builder()
+            val engineBuilder = Engine.Builder()
+
+            // ---- start Wheelbase work ----
+            TermUi.prompt(
                 "Enter wheelbase size: (S)mall, (M)edium or (L)arge"
             ) {
                 when(it) {
-                    "S", "s" -> WheelBase.Size.SMALL
-                    "M", "m" -> WheelBase.Size.MEDIUM
-                    "L", "l" -> WheelBase.Size.LARGE
+                    "S", "s" -> wheelBaseBuilder.setSize(WheelBase.Size.SMALL)
+                    "M", "m" -> wheelBaseBuilder.setSize(WheelBase.Size.MEDIUM)
+                    "L", "l" -> wheelBaseBuilder.setSize(WheelBase.Size.LARGE)
                     else -> throw UsageError("Size has to be S, M or L")
                 }
             }!!
+            wheelBaseBuilder.setWheelFactory(Wheel.Factory(Wheel.Type.ALLOY))
+            // ---- end Wheelbase work ----
 
-            val chasisBuilder = Chasis.Builder()
-
+            // ---- start Chasis work ----
             TermUi.prompt(
                 "Enter chasis type: (H)atchback, (S)edan, SU(V) or (P)ickup"
             ) {
@@ -50,24 +51,23 @@ class Main {
                     else -> throw UsageError("Size has to be H, S, V or P")
                 }
             }!!
+            // ---- end Chasis work ----
+
+            // ---- start Engine work ----
+            engineBuilder.setEngineType(Engine.Type.DIESEL)
+            engineBuilder.setTransmission(Transmission(Transmission.Type.FWD))
+            // ---- end Engine work ----
 
             chasisBuilder.setSeatFactory(Seat.Factory(Seat.Upholstery.REXINE))
 
-            val myCar = Vehicle(
-                Engine(
-                    Engine.Type.PETROL,
-                    Transmission(Transmission.Type.FWD)
-                ),
-                WheelBase(
-                    wheelBaseSize,
-                    chasisBuilder.build(),
-                    Wheel.Factory(Wheel.Type.ALLOY),
-                    spareWheel = true,
-                ),
-            )
+            val myCar = Vehicle.Builder()
+                .setChasis(chasisBuilder.build())
+                .setEngine(engineBuilder.build())
+                .setWheelBase(wheelBaseBuilder.build())
+                .build()
 
             println("Ecosport = $${myCar.price}")
-            println("Ecosport wheels = ${myCar.wheelBase.numWheels}")
+            println("Ecosport wheels = ${myCar.wheelBase.wheels.size}")
         }
     }
 }
