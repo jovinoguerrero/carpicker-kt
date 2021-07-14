@@ -15,11 +15,9 @@ class Seat private constructor(
 
     enum class Upholstery { CLOTH, REXINE, LEATHER }
 
-    class Factory(
-        val upholstery: Upholstery
-    ) {
-        fun createSeat(): Seat {
-            return Seat(upholstery)
+    class Factory(val upholstery: Upholstery) {
+        fun createSeats(numSeats: Int): List<Seat> {
+            return generateSequence { Seat(upholstery) }.take(numSeats).toList()
         }
     }
 }
